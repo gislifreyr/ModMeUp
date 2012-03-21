@@ -1,0 +1,31 @@
+Gagnasafnið
+Notum MovieLens 100k gagnasafnið. Gögnunum var safnað gegnum MovieLens síðuna á 7 mánaða tímabili á árunum 1997-1998.
+Það er gagnasafn með 100.000 einkunum (frá 1 til 5) á 1682 kvikmyndum frá 943 notendum. 
+Hver notandi hefur gefið a.m.k. 20 kvikmyndum einkunn.
+Inniheldur einnig upplýsingar um notendur (aldur, kyn, starf, zip(usa)) -- Reiknum ekki með að nota þessar upplýsingar, en hver veit.
+
+
+
+Pearson fylgnistuðullinn (reiknirit)
+Aðferðin sem við notum hér leitast við að reikna hve líkir aðrir notendur (i) eru notanda a (sá sem er að leita eftir meðmælum) og skilar okkur fylgnistuðlum milli þeirra og a. Þessir fylgnistuðular er svo notaðir til þess að vigta þær einkunnir sem notendur hafa gefið og fá þannig notendur sem eru líkastir a mesta vægið. Vegnar einkunnir fyrir kvikmyndir sem notandi a hefur ekki séð eru lagðar saman og skalaðar til með summu fylgnistuðlanna (k).
+
+Úr gagnasafninu fáum við vigurinn vi,j sem stendur fyrir einkunn á kvikmynd j frá notanda i. Ii er fjöldi þeirra kvikmynda sem notandi i hefur gefið einkunn, má þá finna meðaltal vi með: 
+
+(eins farið að með va)
+
+Fylgni milli notenda a og i er fundinn með:
+
+
+
+þar sem summan yfir j er yfir þær myndir sem bæði notandi a og i hafa gefið einkunn. Og að sjálfsögðu va,j einkunn á kvikmynd j sem a hefur gefið.
+
+
+Til að finna svo vigt einkunna notum við:
+
+
+
+þar sem n er fjöldi notenda í gagnagrunninum sem hafa e-h vigt og k skölun með summu fylgnistuðlanna, skilgreind sem:
+
+
+
+Þar með hefur verið leiðrétt fyrir kvikmyndum sem margir hafa gefið einkunn.

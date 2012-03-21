@@ -1,8 +1,8 @@
 Gagnasafnið
 Notum MovieLens 100k gagnasafnið. Gögnunum var safnað gegnum MovieLens síðuna á 7 mánaða tímabili á árunum 1997-1998.
-Það er gagnasafn með 100.000 einkunum (frá 1 til 5) á 1682 kvikmyndum frá 943 notendum. 
-Hver notandi hefur gefið a.m.k. 20 kvikmyndum einkunn.
-Inniheldur einnig upplýsingar um notendur (aldur, kyn, starf, zip(usa)) -- Reiknum ekki með að nota þessar upplýsingar, en hver veit.
+* Það er gagnasafn með 100.000 einkunum (frá 1 til 5) á 1682 kvikmyndum frá 943 notendum. 
+* Hver notandi hefur gefið a.m.k. 20 kvikmyndum einkunn.
+* Inniheldur einnig upplýsingar um notendur (aldur, kyn, starf, zip(usa)) -- Reiknum ekki með að nota þessar upplýsingar, en hver veit.
 
 
 
@@ -14,17 +14,19 @@ Aðferðin sem við notum hér leitast við að reikna hve líkir aðrir notendu
 (eins farið að með va)
 
 Fylgni milli notenda a og i er fundinn með:
-
+[vantar jöfnu]
 
 
 þar sem summan yfir j er yfir þær myndir sem bæði notandi a og i hafa gefið einkunn. Og að sjálfsögðu va,j einkunn á kvikmynd j sem a hefur gefið.
 
 
 Til að finna svo vigt einkunna notum við:
+[vantar jöfnu]
 
 
 
 þar sem n er fjöldi notenda í gagnagrunninum sem hafa e-h vigt og k skölun með summu fylgnistuðlanna, skilgreind sem:
+[vantar jöfnu]
 
 
 

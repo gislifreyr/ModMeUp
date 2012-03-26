@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import data
 import pearson
+from pprint import pprint
 
 d = data.data()
 print "Loading users"
@@ -10,10 +11,14 @@ d.loadMovies()
 print "Loading ratings"
 d.loadRatings()
 
-prefs = {}
-for user in d.users.keys():
-	prefs[user] = d.users[user].ratings
-
 a = pearson.Algorithm()
 
-print a.Correlation2(prefs, 'TB', 'JM')
+notandi = d.users['TB']
+
+myndir = notandi.buildCorrelations(d.users, a.Correlation2)
+pprint(notandi.similarUsers)
+
+for m in myndir:
+	r = notandi.weightedRating(m)
+	print m + " = " + str(r)
+

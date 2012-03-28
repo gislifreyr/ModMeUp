@@ -85,6 +85,11 @@ class data:
 			raise Exception("User ID already exists")
 		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
 
+	def addMovie(self,mid,name,release=0,vrelease=0,imdburl='N/A',genres=[],ratings={}):
+		if self.movies.has_key(mid):
+			raise Exception("Movie ID already exists")
+		self.movies[mid] = Movie(mid,name,genres,{})
+
 	def loadUsers(self):
 		f = file("data/u.user")
 		for l in f.readlines():
@@ -97,9 +102,9 @@ class data:
 		for l in f.readlines():
 			# 118|Twister (1996)|10-May-1996||http://us.imdb.com/M/title-exact?Twister%20(1996)|0|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0
 			arr = l.split('|')
-			(id,name,release,vrelease,imdburl) = arr[0:5]
+			(mid,name,release,vrelease,imdburl) = arr[0:5]
 			genres = self.translateGenre(arr[5:])
-			self.movies[id] = Movie(id,name,genres,{})
+			self.addMovie(mid,name,genres,{})
 
 	def loadRatings(self):
 		f = file("data/u.data")

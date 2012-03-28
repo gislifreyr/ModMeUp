@@ -79,11 +79,17 @@ class data:
 	def __init__(self):
 		self.users = {}
 		self.movies = {}
+
+	def addUser(self, uid, age='N/A', sex='N/A', occupation='N/A', zipcode='N/A', ratings={}):
+		if self.users.has_key(uid):
+			raise Exception("User ID already exists")
+		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
+
 	def loadUsers(self):
 		f = file("data/u.user")
 		for l in f.readlines():
 			(id,age,sex,occupation,zipcode) = l.split('|')
-			self.users[id] = User(id,age,sex,occupation,zipcode,{})
+			self.addUser(id,age,sex,occupation,zipcode,{})
 		f.close()
 
 	def loadMovies(self):

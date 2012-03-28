@@ -53,15 +53,14 @@ class User:
 	def weightedRating(self, mid):
 		sumeinkunn = 0
 		sumcorr = 0
-		try:
-			for uid in self.similarUsers:
-				user = self.similarUsers[uid]
-				if (mid in user['unseen_movies']):
-					sumcorr += user['correlation']
-					sumeinkunn += user['unseen_movies'][mid]['sx-einkunn']
-			return sumeinkunn/sumcorr
-		except:
-			print "Argh, eitthvað fucked"
+		for uid in self.similarUsers:
+			user = self.similarUsers[uid]
+			if (mid in user['unseen_movies']):
+				sumcorr += user['correlation']
+				sumeinkunn += user['unseen_movies'][mid]['sx-einkunn']
+		if (sumeinkunn == 0 or sumcorr == 0):
+			raise Exception("No data available to give a weighted rating!?")
+		return sumeinkunn/sumcorr
 
 class Movie:
 	def __init__(self,mid,name,genres,ratings=None):

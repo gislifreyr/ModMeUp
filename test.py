@@ -15,7 +15,7 @@ a = pearson.Algorithm()
 
 notandi = d.users['TB']
 
-myndir = notandi.buildCorrelations(d.users, a.Correlation2)
+myndir = notandi.buildCorrelations(d.users, a.Correlation)
 #pprint(notandi.similarUsers)
 
 tests = 7

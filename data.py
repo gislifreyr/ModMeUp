@@ -90,6 +90,17 @@ class data:
 			raise Exception("Movie ID already exists")
 		self.movies[mid] = Movie(mid,name,genres,{})
 
+	def addRating(self,uid,mid,rating,timestamp=0):
+		if not self.users.has_key(uid):
+			raise Exception("No such User ID !")
+
+		if not self.movies.has_key(mid):
+			raise Exception("No such Movie ID !")
+
+		self.users[uid].Rate(mid, rating)
+		self.movies[mid].Rate(uid, rating)
+
+
 	def loadUsers(self):
 		f = file("data/u.user")
 		for l in f.readlines():
@@ -110,8 +121,7 @@ class data:
 		f = file("data/u.data")
 		for l in f.readlines():
 			(uid,mid,rating,timestamp) = l.split("\t")
-			self.users[uid].Rate(mid, rating)
-			self.movies[mid].Rate(uid, rating)
+			self.addRating(uid,mid,rating,timestamp)
 
 	def translateGenre(self,garr):
 		genres = ['unknown', 'Action' 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime' 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]

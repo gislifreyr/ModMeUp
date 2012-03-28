@@ -25,4 +25,6 @@ class Algorithm:
 			sum2Sq += pow((prefs[u2][k] - v_i),2)
 		sum2 = math.sqrt(sum1Sq*sum2Sq)
 		#print sum2
+		if (sum2 == 0):
+			return 0
 		return sum1/sum2

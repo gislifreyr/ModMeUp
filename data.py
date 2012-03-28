@@ -66,6 +66,7 @@ class Movie:
 	def __init__(self,mid,name,genres,ratings=None):
 		self.ratings = ratings
 		self.mid = mid
+		self.name = name
 		self.genres = genres
 	def getRators(self):
 		return self.ratings.keys() # the key to a rating is a user id (uid) !

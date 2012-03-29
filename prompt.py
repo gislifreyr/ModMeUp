@@ -116,7 +116,7 @@ def showRecommendations():
 		rk.reverse()
 		print "Your recommended movies:"
 		for k in rk:
-			print "%s (your weighted recommendation score: %f)"%(recommendations[k], k)
+			print "%s (%s) (your weighted recommendation score: %f)"%(d.movies[recommendations[k]].name, recommendations[k], k)
 		raw_input("Press enter to continue")
 
 prompt = '>> '
@@ -126,11 +126,11 @@ print "What do you want to do?"
 #print "To create a user press [1].\nTo add a movie press [2].\nTo add a rating press [3]."  
 
 while (1):
-	print "To create a user press [1].\nTo add a movie press [2].\nTo add a rating press [3].\nTo find similar users press [4]\nTo get recommendations press [5]"  
+	print "To create a user enter [1].\nTo add a movie enter [2].\nTo add a rating enter [3].\nTo find similar users enter [4]\nTo get recommendations enter [5]\nTo QUIT enter [6]."  
 	n = raw_input(prompt)
 	try:
 		n = int(n)
-		if n < 0 or n > 5:
+		if n < 0 or n > 6:
 			raise Exception ("Not a valid choice!")
 		elif n == 1:	
 			print "To create a user type your information as such 'initials,age,sex,occupation,zipcode'"
@@ -147,6 +147,9 @@ while (1):
 		elif n == 5:
 			print "To get recommendations for a user, enter a valid user ID, such as: %s"%(', '.join(d.users.keys()[:min(5,len(d.users.keys()))]))
 			showRecommendations()
+		elif n == 6:
+			print "Thank you, have a nice day!"
+			sys.exit(0)
 
 	except Exception as e:
 		print "Some kind of exception!"

@@ -95,6 +95,30 @@ def showSimilarUsers():
 			print item[0] + " : %.2f%% match!"%(item[1]['correlation']*100)
 		raw_input("Press enter to continue")
 
+def showRecommendations():
+	# 1. get a user ID
+	userid = collectUserId()
+	user = d.users[userid]
+	pprint(user.ratings)
+	print "Building correlations... This may take a moment"
+	rmovies = user.buildCorrelations(d.users, a.Correlation) # a is a global !
+	if (len(user.similarUsers.keys()) < 1):
+		print "We are sorry, you have no positive correlation with any of our users so we can't give you any recommendations :-("
+	elif (len(rmovies) < 1):
+		print "We are sorry, we got no movies to recommend to you :-("
+	else:
+		# now we loop through the recommended movies and get their ratings!
+		recommendations = {}
+		for m in rmovies:
+			recommendations[user.weightedRating(m)] = m
+		rk = recommendations.keys()
+		rk.sort()
+		rk.reverse()
+		print "Your recommended movies:"
+		for k in rk:
+			print "%s (your weighted recommendation score: %f)"%(recommendations[k], k)
+		raw_input("Press enter to continue")
+
 prompt = '>> '
 
 print "ModMeUp"

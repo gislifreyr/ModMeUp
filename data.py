@@ -88,6 +88,7 @@ class data:
 		self.db = sqlite3.connect(dbname)
 		self.db.text_factory = str # our dataset is not utf-8
 		self.c = self.db.cursor()
+		self.LOADING_STATE = 0
 
 	def addUser(self, uid, age='N/A', sex='N/A', occupation='N/A', zipcode='N/A', ratings={}):
 		# XXX: ADD TO DB!
@@ -96,11 +97,16 @@ class data:
 		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
 		return self.users[uid]
 
-	def addMovie(self,mid,name,release=0,vrelease=0,imdburl='N/A',genres=[],ratings={}):
+	def addMovie(self,mid,name,release=0,imdburl='N/A',genres=[],ratings={}):
 		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
 			raise Exception("Movie ID already exists")
 		self.movies[mid] = Movie(mid,name,genres,{})
+		if not self.LOADING_STATE: # add to the database! In this case, we rely on AUTOINCREMENT for the id!
+			print "Adding movie: %s / %s to Database"%(mid,name)
+			self.c.execute("INSERT INTO movie (name,releasedate,url) values (?,?,?)", (name,release,imdburl))
+			self.db.commit()
+		
 		return self.movies[mid]
 
 	def addRating(self,uid,mid,rating,timestamp=0):
@@ -116,21 +122,27 @@ class data:
 
 
 	def loadUsers(self):
+		self.LOADING_STATE = 1 # ugly, yes
 		users = self.c.execute("SELECT * FROM user").fetchall()
 		for u in users:
 			(id,age,sex,occupation,zipcode) = u
 			self.addUser(id,age,sex,occupation,zipcode,{})
+		self.LOADING_STATE = 0 # ugly, yes
 
 	def loadMovies(self):
+		self.LOADING_STATE = 1 # ugly, yes
 		movies = self.c.execute("SELECT * FROM movie").fetchall()
 		for m in movies:
 			(mid,name,release,imdburl) = m
 			movie = self.addMovie(mid,name,[],{})
 			#print "Loading genres for: %s"%name
 			movie.loadGenres(self.c)
+		self.LOADING_STATE = 0 # ugly, yes
 
 	def loadRatings(self):
+		self.LOADING_STATE = 1 # ugly, yes
 		ratings = self.c.execute("SELECT * FROM user_ratings")
 		for r in ratings:
 			(rid,uid,mid,rating,timestamp) = r
 			self.addRating(uid,mid,rating,timestamp)
+		self.LOADING_STATE = 0 # ugly, yes

@@ -101,11 +101,13 @@ class data:
 		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
 			raise Exception("Movie ID already exists")
-		self.movies[mid] = Movie(mid,name,genres,{})
 		if not self.LOADING_STATE: # add to the database! In this case, we rely on AUTOINCREMENT for the id!
 			print "Adding movie: %s / %s to Database"%(mid,name)
 			self.c.execute("INSERT INTO movie (name,releasedate,url) values (?,?,?)", (name,release,imdburl))
 			self.db.commit()
+			# retrieve given mid and use !
+			mid = self.c.lastrowid
+		self.movies[mid] = Movie(mid,name,genres,{})
 		
 		return self.movies[mid]
 

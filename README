@@ -1,1 +1,9 @@
-Ready.
+ModMeUp - simple demonstration application for the use of Pearson correlation coefficient for movie ratings and recommendations.
+
+To run the application for the first time, you need to initialize a database for use with the application. To do this simply follow these two simple steps:
+
+1. Create a new empty database:
+  user@host:~/ModMeUp$ sqlite modmeup.db < tables.sql
+
+2. Optionally load it with the MovieLens100k database:
+  user@host:~/ModMeUp$ python ./dbload.py modmeup.db

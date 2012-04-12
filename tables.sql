@@ -1,45 +1,49 @@
-
-# file: u.user
+-- file: u.user
 create table user
 (
-	id
-	age
-	gender
-	occupation
-	zipcode
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	age INTEGER,
+	gender VARCHAR(1),
+	occupation VARCHAR(32),
+	zipcode INTEGER
 );
 
-# file: u.item
+-- file: u.item
 create table movie
 (
-	id
-	name
-	release-date
-	url
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT,
+	releasedate DATE,
+	url TEXT
 );
 
-# genres:
-# unknown, action, adventure, animation, childrens, comedy, crime, documentary, darama, fantasy, film-noir, horror, musical, mystery, romance, sci-fi, thriller, war, western
+-- genres:
+-- unknown, action, adventure, animation, childrens, comedy, crime, documentary, darama, fantasy, film-noir, horror, musical, mystery, romance, sci-fi, thriller, war, western
 create table genre
 (
-	id
-	name
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(32)
 );
 
-# many-to-many based on file: u.item "bitfield" at the end!
+-- many-to-many based on file: u.item "bitfield" at the end!
 create table movie_genre
 (
-	id
-	movieid
-	genreid
-)
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	movieid INTEGER,
+	genreid INTEGER,
+	FOREIGN KEY (movieid) REFERENCES movie(id),
+	FOREIGN KEY (genreid) REFERENCES genre(id)
+);
 
-# u.data
+-- u.data
 create table user_ratings
 (
-	user id,
-	movie id
-	rating
-	timestamp
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	uid INTEGER,
+	mid INTEGER,
+	rating FLOAT,
+	timestamp TIMESTAMP,
+	FOREIGN KEY (uid) REFERENCES user,
+	FOREIGN KEY (mid) REFERENCES movie
 );
 

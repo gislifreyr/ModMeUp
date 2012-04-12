@@ -1,5 +1,7 @@
 #!/usr/bin/python -u
 # ~!~ encoding: utf-8 ~!~
+import os
+import sqlite3
 
 class User:
 	def __init__(self,uid,age,sex,occupation,zipcode,ratings):
@@ -76,21 +78,27 @@ class Movie:
 		self.ratings[uid] = float(rating)
 
 class data:
-	def __init__(self):
+	def __init__(self, dbname='modmeup.db'):
 		self.users = {}
 		self.movies = {}
+		assert(os.path.exists(dbname))
+		self.db = sqlite3.connect(dbname)
+		self.c = self.db.cursor()
 
 	def addUser(self, uid, age='N/A', sex='N/A', occupation='N/A', zipcode='N/A', ratings={}):
+		# XXX: ADD TO DB!
 		if self.users.has_key(uid):
 			raise Exception("User ID already exists")
 		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
 
 	def addMovie(self,mid,name,release=0,vrelease=0,imdburl='N/A',genres=[],ratings={}):
+		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
 			raise Exception("Movie ID already exists")
 		self.movies[mid] = Movie(mid,name,genres,{})
 
 	def addRating(self,uid,mid,rating,timestamp=0):
+		# XXX: ADD TO DB!
 		if not self.users.has_key(uid):
 			raise Exception("No such User ID !")
 
@@ -102,17 +110,14 @@ class data:
 
 
 	def loadUsers(self):
-		f = file("data/u.user")
-		for l in f.readlines():
-			(id,age,sex,occupation,zipcode) = l.split('|')
+		users = self.c.execute("SELECT * FROM user").fetchall()
+		for u in users:
+			(id,age,sex,occupation,zipcode) = u
 			self.addUser(id,age,sex,occupation,zipcode,{})
-		f.close()
 
 	def loadMovies(self):
-		f = file("data/u.item")
-		for l in f.readlines():
-			# 118|Twister (1996)|10-May-1996||http://us.imdb.com/M/title-exact?Twister%20(1996)|0|1|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|0
-			arr = l.split('|')
+		movies = self.c.execute("SELECT * FROM movie").fetchall()
+		for m in movies:
 			(mid,name,release,vrelease,imdburl) = arr[0:5]
 			genres = self.translateGenre(arr[5:])
 			self.addMovie(mid,name,genres,{})
@@ -124,7 +129,7 @@ class data:
 			self.addRating(uid,mid,rating,timestamp)
 
 	def translateGenre(self,garr):
-		genres = ['unknown', 'Action' 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime' 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
+		genres = ['unknown', 'Action', 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
 		r = []
 		i = 0
 		for n in garr:

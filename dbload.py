@@ -5,12 +5,13 @@ import os
 import sqlite3
 
 default_datadir = "./data"
+genres = ['unknown', 'Action', 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
 
 def insert_user(cursor, rec):
 	return cursor.execute("INSERT INTO user (id,age,gender,occupation,zipcode) VALUES (?, ?, ?, ?, ?)", rec[:5])
 
 def insert_movie(cursor, rec):
-	return cursor.execute("INSERT INTO movie (id,name,releasedate,url) VALUES (?, ?, ?, ?)", rec[:4])
+	return cursor.execute("INSERT INTO movie (id,name,releasedate,url) VALUES (?, ?, ?, ?)", (rec[0], rec[1], rec[2], rec[4]))
 
 def insert_genre(cursor, rec):
 	return cursor.execute("INSERT INTO genre (name) VALUES (?)", rec[:1])
@@ -25,18 +26,17 @@ def loadGenres(cursor):
 	cursor.execute("SELECT * FROM genre")
 	gm = {}
 	for row in cursor.fetchall():
-		gm[row[0]] = row[1]
+		gm[row[1]] = row[0]
 	return gm
 
 def setGenres(cursor, rec):
 	mid = rec[0]
 	garr = rec[5:]
 	genre_map = loadGenres(cursor)
-	genres = ['unknown', 'Action' 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime' 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
 	r = []
 	i = 0
 	for n in garr:
-		if (n == 1):
+		if (int(n) == 1):
 			gid = genre_map[genres[i]]
 			insert_movie_genre(cursor, list([mid, gid]))
 		i += 1
@@ -69,11 +69,12 @@ def main():
 	db.text_factory = str
 	c = db.cursor()
 	# special handling for genres!
-	genres = ['unknown', 'Action' 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime' 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
 	print "Loading genres.."
 	for g in genres:
 		if not insert_genre(c, list([g])):
 			print "Failed to insert: %s"%g
+
+	db.commit()
 
 	data = [ { 'name': 'user',
 		   'insert':insert_user,

@@ -74,6 +74,9 @@ class Movie:
 		return self.ratings.keys() # the key to a rating is a user id (uid) !
 	def getRatings(self):
 		return self.ratings
+	def loadGenres(self,cursor):
+		genres = cursor.execute("select name from genre left join movie_genre where genre.id=movie_genre.genreid and movieid=%d"%self.mid).fetchall()
+		self.genres = genres
 	def Rate(self,uid,rating):
 		self.ratings[uid] = float(rating)
 
@@ -83,6 +86,7 @@ class data:
 		self.movies = {}
 		assert(os.path.exists(dbname))
 		self.db = sqlite3.connect(dbname)
+		self.db.text_factory = str # our dataset is not utf-8
 		self.c = self.db.cursor()
 
 	def addUser(self, uid, age='N/A', sex='N/A', occupation='N/A', zipcode='N/A', ratings={}):
@@ -90,12 +94,14 @@ class data:
 		if self.users.has_key(uid):
 			raise Exception("User ID already exists")
 		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
+		return self.users[uid]
 
 	def addMovie(self,mid,name,release=0,vrelease=0,imdburl='N/A',genres=[],ratings={}):
 		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
 			raise Exception("Movie ID already exists")
 		self.movies[mid] = Movie(mid,name,genres,{})
+		return self.movies[mid]
 
 	def addRating(self,uid,mid,rating,timestamp=0):
 		# XXX: ADD TO DB!
@@ -118,23 +124,13 @@ class data:
 	def loadMovies(self):
 		movies = self.c.execute("SELECT * FROM movie").fetchall()
 		for m in movies:
-			(mid,name,release,vrelease,imdburl) = arr[0:5]
-			genres = self.translateGenre(arr[5:])
-			self.addMovie(mid,name,genres,{})
+			(mid,name,release,imdburl) = m
+			movie = self.addMovie(mid,name,[],{})
+			#print "Loading genres for: %s"%name
+			movie.loadGenres(self.c)
 
 	def loadRatings(self):
-		f = file("data/u.data")
-		for l in f.readlines():
-			(uid,mid,rating,timestamp) = l.split("\t")
+		ratings = self.c.execute("SELECT * FROM user_ratings")
+		for r in ratings:
+			(rid,uid,mid,rating,timestamp) = r
 			self.addRating(uid,mid,rating,timestamp)
-
-	def translateGenre(self,garr):
-		genres = ['unknown', 'Action', 'Adventure', 'Animation', 'Children\'s', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western' ]
-		r = []
-		i = 0
-		for n in garr:
-			if (n == 1):
-				r.append(genres[i])
-			i += 1
-		return r
-

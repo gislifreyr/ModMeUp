@@ -47,3 +47,6 @@ create table user_ratings
 	FOREIGN KEY (mid) REFERENCES movie
 );
 
+
+-- index for movie_genre
+create unique index idx_moviegenre on movie_genre (genreid,movieid);

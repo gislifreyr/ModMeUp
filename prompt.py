@@ -37,13 +37,9 @@ def collectMovie():
 	collected = 0
 	while (not collected):
 		try:
-#			inp = ',' + raw_input(prompt) #oh my god this is ugly
-#			mid = ''
 			inp = raw_input(prompt)
-#			(name) = inp.strip().split(',')
 			(name) = inp.strip()
 			try:
-#				d.addMovie(mid,name)
 				movie = d.addMovie('',name)
 				print "You have added a movie:\nname:%s id:%d" % (name,movie.mid)
 				raw_input("Press enter to continue")
@@ -138,7 +134,6 @@ prompt = '>> '
 
 print "ModMeUp"
 print "What do you want to do?"
-#print "To create a user press [1].\nTo add a movie press [2].\nTo add a rating press [3]."  
 
 while (1):
 	print "\n=============================="
@@ -165,7 +160,7 @@ while (1):
 			print "To get recommendations for a user, enter a valid user ID, such as: %s"%(', '.join(d.users.keys()[:min(5,len(d.users.keys()))]))
 			showRecommendations()
 		elif n == 6:
-			print "Thank you, have a nice day!"
+			print "Thank you, come again!"
 			sys.exit(0)
 
 	except Exception as e:

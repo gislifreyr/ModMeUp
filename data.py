@@ -27,8 +27,6 @@ class User:
 	def buildCorrelations(self,users,alg):
 		for uid in users.keys():
 			if uid == self.uid: continue # skip if it's ourselves!
-			# overkill
-			#prefs = dict([(item,self.ratings[item]) for item in self.ratings.keys() if users[uid].ratings.has_key(item)])
 			prefs = {self.uid: self.ratings, uid: users[uid].ratings}
 			corr = alg(prefs,self.uid, uid)
 			if corr <= 0: continue #skip this user if no correlation or negative correlation
@@ -45,7 +43,7 @@ class User:
 			for mid in user.ratings.keys():
 				if mid in self.ratings.keys(): continue
 				if mid not in m:
-					# óséð movie id!
+					# unseen movie id!
 					m.append(mid)
 				unseen_movies[mid] = {}
 				unseen_movies[mid]['einkunn'] = user.ratings[mid]
@@ -129,27 +127,26 @@ class data:
 
 
 	def loadUsers(self):
-		self.LOADING_STATE = 1 # ugly, yes
+		self.LOADING_STATE = 1 
 		users = self.c.execute("SELECT * FROM user").fetchall()
 		for u in users:
 			(id,age,sex,occupation,zipcode) = u
 			self.addUser(id,age,sex,occupation,zipcode,{})
-		self.LOADING_STATE = 0 # ugly, yes
+		self.LOADING_STATE = 0
 
 	def loadMovies(self):
-		self.LOADING_STATE = 1 # ugly, yes
+		self.LOADING_STATE = 1
 		movies = self.c.execute("SELECT * FROM movie").fetchall()
 		for m in movies:
 			(mid,name,release,imdburl) = m
 			movie = self.addMovie(mid,name,[],{})
-			#print "Loading genres for: %s"%name
 			movie.loadGenres(self.c)
-		self.LOADING_STATE = 0 # ugly, yes
+		self.LOADING_STATE = 0
 
 	def loadRatings(self):
-		self.LOADING_STATE = 1 # ugly, yes
+		self.LOADING_STATE = 1 
 		ratings = self.c.execute("SELECT * FROM user_ratings")
 		for r in ratings:
 			(rid,uid,mid,rating,timestamp) = r
 			self.addRating(uid,mid,rating,timestamp)
-		self.LOADING_STATE = 0 # ugly, yes
+		self.LOADING_STATE = 0 

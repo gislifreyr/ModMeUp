@@ -17,7 +17,7 @@ def collectUser():
 	collected = 0
 	while (not collected):
 		try:
-			inp = raw_input(prompt) #oh my god this is ugly
+			inp = raw_input(prompt)
 			(age,gender,occupation,zipcode) = inp.strip().split(',')
 			try:
 				user = d.addUser('',age,gender,occupation,zipcode)
@@ -37,12 +37,15 @@ def collectMovie():
 	collected = 0
 	while (not collected):
 		try:
-			inp = ',' + raw_input(prompt) #oh my god this is ugly
-			mid = ''
-			(mid,name) = inp.strip().split(',')
+#			inp = ',' + raw_input(prompt) #oh my god this is ugly
+#			mid = ''
+			inp = raw_input(prompt)
+			(name) = inp.strip().split(',')
 			try:
-				d.addMovie(mid,name)
-				print "You have added a movie:\nname:%s id:%s" % (name,movie.mid)
+#				d.addMovie(mid,name)
+				movie = d.addMovie('',name)
+				print "You have added a movie:\nname:%s" % (name)
+				print "%s has the id:%d" % (name,movie.mid)
 				raw_input("Press enter to continue")
 				collected = 1
 			except Exception as e:
@@ -139,7 +142,7 @@ print "What do you want to do?"
 
 while (1):
 	print "\n=============================="
-	print "To create a user enter [1].\nTo add a movie enter [2].\nTo add a rating enter [3].\nTo find similar users enter [4]\nTo get recommendations enter [5]\nTo QUIT enter [6]."  
+	print "[1] create a user\n[2] add a movie.\n[3] add a rating.\n[4] find similar users\n[5] get recommendations\n[6] QUIT"  
 	print "=============================="
 	n = raw_input(prompt)
 	try:

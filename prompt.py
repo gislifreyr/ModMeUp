@@ -61,6 +61,7 @@ def collectRating():
 			try:
 				d.addRating(uid,mid,rating)
 				print "You have given %s (%s) a rating of %s" % (d.movies[mid].name,mid,rating)
+				raw_input("Press enter to continue")
 				collected = 1
 			except Exception as e:
 				traceback.print_exc(file=sys.stdout)

@@ -95,7 +95,6 @@ class data:
 		if self.users.has_key(uid):
 			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE:
-			print "Adding user to Database" % (uid)
 			self.c.execute("INSERT INTO user (age,gender,occupation,zipcode) values (?,?,?,?)", (age,gender,occupation,zipcode))
 			self.db.commit()
 			uid = self.c.lastrowid
@@ -108,7 +107,6 @@ class data:
 		if self.movies.has_key(mid):
 			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE: # add to the database! In this case, we rely on AUTOINCREMENT for the id!
-			print "Adding movie to Database"
 			self.c.execute("INSERT INTO movie (name,releasedate,url) values (?,?,?)", (name,release,imdburl))
 			self.db.commit()
 			# retrieve given mid and use !

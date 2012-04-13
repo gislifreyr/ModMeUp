@@ -17,15 +17,17 @@ def collectUser():
 	collected = 0
 	while (not collected):
 		try:
-			inp = ',' + raw_input(prompt) #oh my god this is ugly
-			uid=''
-			(uid,age,gender,occupation,zipcode) = inp.strip().split(',')
+			inp = raw_input(prompt) #oh my god this is ugly
+			(age,gender,occupation,zipcode) = inp.strip().split(',')
 			try:
-				d.addUser(uid,age,gender,occupation,zipcode)
+				user = d.addUser('',age,gender,occupation,zipcode)
 				print "You have added a user:\nage:%s, gender:%s, occupation:%s, zipcode:%s" % (age,gender,occupation,zipcode)
+				print "Your new user has the user id:%d"%user.uid
 				collected = 1
 			except Exception as e:
 				print str(e)
+				traceback.print_exc(file=sys.stdout)
+
 
 		except Exception as e:
 			print "oops: " + str(e)

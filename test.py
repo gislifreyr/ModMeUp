@@ -3,7 +3,7 @@ import data
 import pearson
 from pprint import pprint
 
-d = data.data()
+d = data.data('test.db')
 print "Loading users"
 d.loadUsers()
 print "Loading movies"
@@ -13,18 +13,24 @@ d.loadRatings()
 
 a = pearson.Algorithm()
 
-notandi = d.users['TB']
-
-myndir = notandi.buildCorrelations(d.users, a.Correlation)
 #pprint(notandi.similarUsers)
 
 tests = 7
 ntests = 0
 fails = 0
 
-test_output = { 'NL': 3.34778952671,
-		'LW': 2.83254991826,
-		'JML': 2.53098070377 }
+#Users
+#CP => 1 GS => 2 JM => 3 LR => 4 MLS => 5 MP => 6 TB => 7
+
+#Movies
+#LW => 1 SP => 2 JML => 3 SR => 4 YMD => 5 NL => 6
+
+notandi = d.users[7] #TB
+myndir = notandi.buildCorrelations(d.users, a.Correlation)
+
+test_output = { 6: 3.34778952671, # NL
+		1: 2.83254991826, # LW
+		3: 2.53098070377 } # JML
 ntests += 1
 if len(myndir) != 3:
 	print "Test %d failed: too many results"%ntests

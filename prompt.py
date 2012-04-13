@@ -76,7 +76,7 @@ def collectUserId():
 	while (not userid):
 		try:
 			inp = raw_input(prompt)
-			uid = inp.strip()
+			uid = int(inp.strip())
 			if uid not in d.users.keys():
 				raise Exception("No such user ID!")
 			if (len(d.users[uid].ratings.keys()) < 2):
@@ -103,7 +103,7 @@ def showSimilarUsers():
 		# And show them..
 		print "Your most similar users are:"
 		for item in similar:
-			print item[0] + " : %.2f%% match!"%(item[1]['correlation']*100)
+			print str(item[0]) + " : %.2f%% match!"%(item[1]['correlation']*100)
 		raw_input("Press enter to continue")
 
 def showRecommendations():
@@ -154,10 +154,10 @@ while (1):
 			print "To add a rating type your information as such 'uid,mid,rating"
 			collectRating()
 		elif n == 4:
-			print "To see similar users, enter a valid user ID, such as: %s"%(', '.join(d.users.keys()[:min(5,len(d.users.keys()))]))
+			print "To see similar users, enter a valid user ID, such as: %s"%(', '.join([str(z) for z in d.users.keys()[:min(5,len(d.users.keys()))]]))
 			showSimilarUsers()
 		elif n == 5:
-			print "To get recommendations for a user, enter a valid user ID, such as: %s"%(', '.join(d.users.keys()[:min(5,len(d.users.keys()))]))
+			print "To get recommendations for a user, enter a valid user ID, such as: %s"%(', '.join([str(z) for z in d.users.keys()[:min(5,len(d.users.keys()))]]))
 			showRecommendations()
 		elif n == 6:
 			print "Thank you, come again!"

@@ -7,3 +7,20 @@ To run the application for the first time, you need to initialize a database for
 
 2. Optionally load it with the MovieLens100k database:
   user@host:~/ModMeUp$ python ./dbload.py modmeup.db
+
+3. Run the application prompt:
+  user@host:~/ModMeUp$ python prompt.py
+
+-- Now if you feel like playing around with the data, we've bundled a handy little unit test tool which allows you to make sure certain core aspects of the system are still "according to spec" after your changes, if in doubt. To run this test tool, you need to make an initially empty test-database:
+
+1. Create a new empty database named test.db:
+  user@host:~/ModMeUp$ sqlite3 test.db < tables.sql
+
+2. Run the test.py tool on the new test database:
+  user@host:~/ModMeUp$ python test.py
+
+* If you named your test database something else than "test.db", simply add the filename as an argument to test.py, like so:
+  user@host:~/ModMeUp$ python test.py mytestdb.db
+
+
+

@@ -23,6 +23,7 @@ def collectUser():
 				user = d.addUser('',age,gender,occupation,zipcode)
 				print "You have added a user:\nage:%s, gender:%s, occupation:%s, zipcode:%s" % (age,gender,occupation,zipcode)
 				print "Your new user has the user id:%d"%user.uid
+				raw_input("Press enter to continue")
 				collected = 1
 			except Exception as e:
 				print str(e)
@@ -41,7 +42,8 @@ def collectMovie():
 			(mid,name) = inp.strip().split(',')
 			try:
 				d.addMovie(mid,name)
-				print "You have added a move:\nname:%s" % (name)
+				print "You have added a movie:\nname:%s id:%s" % (name,movie.mid)
+				raw_input("Press enter to continue")
 				collected = 1
 			except Exception as e:
 				print str(e)
@@ -136,7 +138,9 @@ print "What do you want to do?"
 #print "To create a user press [1].\nTo add a movie press [2].\nTo add a rating press [3]."  
 
 while (1):
+	print "\n=============================="
 	print "To create a user enter [1].\nTo add a movie enter [2].\nTo add a rating enter [3].\nTo find similar users enter [4]\nTo get recommendations enter [5]\nTo QUIT enter [6]."  
+	print "=============================="
 	n = raw_input(prompt)
 	try:
 		n = int(n)

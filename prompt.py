@@ -141,9 +141,9 @@ print "Done!\n"
 print "What do you want to do?"
 
 while (1):
-	print "\n=============================="
-	print "[1] create a user\n[2] add a movie.\n[3] add a rating.\n[4] find similar users\n[5] get recommendations\n[6] QUIT"  
-	print "=============================="
+	print "\n========================="
+	print " [1] create a user\n [2] add a movie.\n [3] add a rating.\n [4] find similar users\n [5] get recommendations\n [6] QUIT"  
+	print "========================="
 	n = raw_input(prompt)
 	try:
 		n = int(n)

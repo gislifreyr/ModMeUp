@@ -40,12 +40,12 @@ def collectMovie():
 #			inp = ',' + raw_input(prompt) #oh my god this is ugly
 #			mid = ''
 			inp = raw_input(prompt)
-			(name) = inp.strip().split(',')
+#			(name) = inp.strip().split(',')
+			(name) = inp.strip()
 			try:
 #				d.addMovie(mid,name)
 				movie = d.addMovie('',name)
-				print "You have added a movie:\nname:%s" % (name)
-				print "%s has the id:%d" % (name,movie.mid)
+				print "You have added a movie:\nname:%s id:%d" % (name,movie.mid)
 				raw_input("Press enter to continue")
 				collected = 1
 			except Exception as e:

@@ -113,13 +113,13 @@ except Exception as e:
 	fails +=1
 
 
-print "Testing phase 2: Correlation tests using API loaded data"
+print "\nTesting phase 2: Correlation tests using API loaded data"
 (ntests,nfails) = correlation_tests(d, ntests)
 fails += nfails
 
 d = None
 d = data.data('test.db')
-print "Testing phase 3: Correlation tests using DB loaded data (did the API loading save?)"
+print "\nTesting phase 3: Correlation tests using DB loaded data (did the API loading save?)"
 print "Loading users"
 d.loadUsers()
 print "Loading movies"

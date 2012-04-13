@@ -22,5 +22,8 @@ To run the application for the first time, you need to initialize a database for
 * If you named your test database something else than "test.db", simply add the filename as an argument to test.py, like so:
   user@host:~/ModMeUp$ python test.py mytestdb.db
 
+** If you just want the easy way to test -- run test.sh .. It does everything for you, cleans up, initializes db, and runs the tests!
+  user@host:~/ModMeUp$ ./test.sh
+
 
 

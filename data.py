@@ -2,6 +2,7 @@
 # ~!~ encoding: utf-8 ~!~
 import os
 import sqlite3
+import time
 
 class User:
 	def __init__(self,uid,age,sex,occupation,zipcode,ratings):
@@ -91,7 +92,6 @@ class data:
 		self.LOADING_STATE = 0
 
 	def addUser(self, uid='', age='N/A', gender='N/A', occupation='N/A', zipcode='N/A', ratings={}):
-		# XXX: ADD TO DB!
 		if self.users.has_key(uid):
 			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE:
@@ -103,7 +103,6 @@ class data:
 		return self.users[uid]
 
 	def addMovie(self,mid,name,release=0,imdburl='N/A',genres=[],ratings={}):
-		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
 			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE: # add to the database! In this case, we rely on AUTOINCREMENT for the id!
@@ -116,13 +115,15 @@ class data:
 		return self.movies[mid]
 
 	def addRating(self,uid,mid,rating,timestamp=0):
-		# XXX: ADD TO DB!
 		if not self.users.has_key(uid):
-			raise Exception("No such User ID !")
+			raise Exception("No such User ID: %s"%uid)
 
 		if not self.movies.has_key(mid):
-			raise Exception("No such Movie ID !")
+			raise Exception("No such Movie ID: %s"%mid)
 
+		if not self.LOADING_STATE:
+			self.c.execute("INSERT INTO user_ratings (uid,mid,rating,timestamp) VALUES (?, ?, ?, ?)", (uid,mid,rating,time.time()))
+			self.db.commit()
 		self.users[uid].Rate(mid, rating)
 		self.movies[mid].Rate(uid, rating)
 

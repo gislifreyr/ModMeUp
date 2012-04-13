@@ -55,12 +55,15 @@ def collectRating():
 		try:
 			inp = raw_input(prompt)
 			(uid,mid,rating) = inp.strip().split(',')
+			uid = int(uid)
+			mid = int(mid)
+			rating = float(rating)
 			try:
 				d.addRating(uid,mid,rating)
 				print "You have given %s (%s) a rating of %s" % (d.movies[mid].name,mid,rating)
 				collected = 1
 			except Exception as e:
-				print str(e)
+				traceback.print_exc(file=sys.stdout)
 
 		except Exception as e:
 			print "whoooopsadaisy: " + str(e)

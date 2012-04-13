@@ -6,6 +6,8 @@ import traceback
 import sys
 from pprint import pprint
 
+print "ModMeUp ... loading data please wait"
+
 d = data.data()
 d.loadUsers()
 d.loadMovies()
@@ -101,8 +103,11 @@ def showSimilarUsers():
 		# now we shall order the users by similarity!
 		similar = sorted(user.similarUsers.iteritems(), key=lambda(k,v):(v,k), reverse=True)
 		# And show them..
-		print "Your most similar users are:"
-		for item in similar:
+		maxn = len(similar)
+		if (maxn > 20):
+			maxn = 20
+		print "Your %d most similar users are:"%maxn
+		for item in similar[:maxn]:
 			print str(item[0]) + " : %.2f%% match!"%(item[1]['correlation']*100)
 		raw_input("Press enter to continue")
 
@@ -132,7 +137,7 @@ def showRecommendations():
 
 prompt = '>> '
 
-print "ModMeUp"
+print "Done!\n"
 print "What do you want to do?"
 
 while (1):

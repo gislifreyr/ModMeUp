@@ -5,13 +5,13 @@ import sqlite3
 import time
 
 class User:
-	def __init__(self,uid,age,sex,occupation,zipcode,ratings):
+	def __init__(self,uid,age,sex,occupation,zipcode):
 		self.uid = uid
 		self.age = age
 		self.sex = sex
 		self.occupation = occupation
 		self.zipcode = zipcode
-		self.ratings = ratings
+		self.ratings = {}
 		self.similarUsers = {}
 
 	def getRatings(self):
@@ -89,14 +89,14 @@ class data:
 		self.c = self.db.cursor()
 		self.LOADING_STATE = 0
 
-	def addUser(self, uid='', age='N/A', gender='N/A', occupation='N/A', zipcode='N/A', ratings={}):
+	def addUser(self, uid='', age='N/A', gender='N/A', occupation='N/A', zipcode='N/A'):
 		if self.users.has_key(uid):
 			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE:
 			self.c.execute("INSERT INTO user (age,gender,occupation,zipcode) values (?,?,?,?)", (age,gender,occupation,zipcode))
 			self.db.commit()
 			uid = self.c.lastrowid
-		self.users[uid] = User(uid,age,gender,occupation,zipcode,ratings)
+		self.users[uid] = User(uid,age,gender,occupation,zipcode)
 
 		return self.users[uid]
 
@@ -131,7 +131,7 @@ class data:
 		users = self.c.execute("SELECT * FROM user").fetchall()
 		for u in users:
 			(id,age,sex,occupation,zipcode) = u
-			self.addUser(id,age,sex,occupation,zipcode,{})
+			self.addUser(id,age,sex,occupation,zipcode)
 		self.LOADING_STATE = 0
 
 	def loadMovies(self):

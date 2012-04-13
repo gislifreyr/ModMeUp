@@ -90,19 +90,25 @@ class data:
 		self.c = self.db.cursor()
 		self.LOADING_STATE = 0
 
-	def addUser(self, uid, age='N/A', sex='N/A', occupation='N/A', zipcode='N/A', ratings={}):
+	def addUser(self, uid='', age='N/A', gender='N/A', occupation='N/A', zipcode='N/A', ratings={}):
 		# XXX: ADD TO DB!
 		if self.users.has_key(uid):
-			raise Exception("User ID already exists")
-		self.users[uid] = User(uid,age,sex,occupation,zipcode,ratings)
+			raise Exception("Somewhere, somehow, something went horribly wrong!")
+		if not self.LOADING_STATE:
+			print "Adding user to Database" % (uid)
+			self.c.execute("INSERT INTO user (age,gender,occupation,zipcode) values (?,?,?,?)", (age,gender,occupation,zipcode))
+			self.db.commit()
+			uid = self.c.lastrowid
+		self.users[uid] = User(uid,age,gender,occupation,zipcode,ratings)
+
 		return self.users[uid]
 
 	def addMovie(self,mid,name,release=0,imdburl='N/A',genres=[],ratings={}):
 		# XXX: ADD TO DB!
 		if self.movies.has_key(mid):
-			raise Exception("Movie ID already exists")
+			raise Exception("Somewhere, somehow, something went horribly wrong!")
 		if not self.LOADING_STATE: # add to the database! In this case, we rely on AUTOINCREMENT for the id!
-			print "Adding movie: %s / %s to Database"%(mid,name)
+			print "Adding movie to Database"
 			self.c.execute("INSERT INTO movie (name,releasedate,url) values (?,?,?)", (name,release,imdburl))
 			self.db.commit()
 			# retrieve given mid and use !

@@ -1,3 +1,5 @@
+#!/usr/bin/python -u
+
 import data
 import pearson
 import traceback
@@ -15,11 +17,12 @@ def collectUser():
 	collected = 0
 	while (not collected):
 		try:
-			inp = raw_input(prompt)
-			(uid,age,sex,occupation,zipcode) = inp.strip().split(',')
+			inp = ',' + raw_input(prompt) #oh my god this is ugly
+			uid=''
+			(uid,age,gender,occupation,zipcode) = inp.strip().split(',')
 			try:
-				d.addUser(uid,age,sex,occupation,zipcode)
-				print "You have added a user.\n uid:%s, age:%s, sex:%s, occupation:%s, zipcode:%s" % (uid,age,sex,occupation,zipcode)
+				d.addUser(uid,age,gender,occupation,zipcode)
+				print "You have added a user:\nage:%s, gender:%s, occupation:%s, zipcode:%s" % (age,gender,occupation,zipcode)
 				collected = 1
 			except Exception as e:
 				print str(e)
@@ -31,11 +34,12 @@ def collectMovie():
 	collected = 0
 	while (not collected):
 		try:
-			inp = raw_input(prompt)
+			inp = ',' + raw_input(prompt) #oh my god this is ugly
+			mid = ''
 			(mid,name) = inp.strip().split(',')
 			try:
 				d.addMovie(mid,name)
-				print "You have added %s with the mid %s" % (name,mid)
+				print "You have added a move:\nname:%s" % (name)
 				collected = 1
 			except Exception as e:
 				print str(e)
@@ -133,10 +137,10 @@ while (1):
 		if n < 0 or n > 6:
 			raise Exception ("Not a valid choice!")
 		elif n == 1:	
-			print "To create a user type your information as such 'initials,age,sex,occupation,zipcode'"
+			print "To create a user type your information as such 'age,gender,occupation,zipcode'"
 			collectUser()
 		elif n == 2:
-			print "To add a movie type your information as such 'movieid,movietitle'"
+			print "To add a movie type your information as such 'movietitle,releasedate,imdburl'"
 			collectMovie()
 		elif n == 3:
 			print "To add a rating type your information as such 'uid,mid,rating"
